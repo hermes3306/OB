@@ -32,10 +32,10 @@ use PHPMailer\PHPMailer\Exception;
 	$mbox = new mbox(__DIR__ . '/OB.ini');
 
 	$mbox->mail->SetFrom($mbox->mail_props['setFrom'], '[GIBH]');
-	//$BCC 	= "kwangmin.lee@waffle.at";
-	//$CC 	= $mbox->mail_props['setFrom'];
-	$CC 	= "6ave54street@gmail.com";
-	$BCC 	= "at54street@gmail.com";
+	$BCC 	= "kwangmin.lee@waffle.at";
+	$CC 	= $mbox->mail_props['setFrom'];
+	//$CC 	= "6ave54street@gmail.com";
+	//$BCC 	= "at54street@gmail.com";
 	
  	$conn = mysqli_connect(
                 $mbox->mail_props['db.host'],
@@ -43,7 +43,7 @@ use PHPMailer\PHPMailer\Exception;
         		$mbox->mail_props['db.pwd'],
         		$mbox->mail_props['db.db']);
 
-	$sql = "select distinct * from ob_email where `SNS User Email` is not null limit 1"; 
+	$sql = "select distinct * from ob_email where `SNS User Email` is not null limit 5"; 
         print($sql."\n");
 
     	$result = mysqli_query($conn, $sql);
@@ -54,7 +54,8 @@ use PHPMailer\PHPMailer\Exception;
 		if($row["Nation"] === "REPUBLIC OF KOREA") $t_name = "OB-K.html";
 
 		$mbox->mail->ClearAllRecipients();
-		$mbox->mail->addAddress("---." . $row["SNS User Email"]);
+		$mbox->mail->addAddress("x." . $row["SNS User Email"]);
+$mbox->mail->addAddress("at54street@gmail.com");
 		$mbox->mail->addBCC($BCC);
 		$mbox->mail->addCC($CC);
 		$mbox->mail->Subject =	$subjects[$t_name];

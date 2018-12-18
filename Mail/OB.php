@@ -32,10 +32,7 @@ use PHPMailer\PHPMailer\Exception;
 	$mbox = new mbox(__DIR__ . '/OB.ini');
 
 	$mbox->mail->SetFrom($mbox->mail_props['setFrom'], '[GIBH]');
-	$BCC 	= "kwangmin.lee@waffle.at";
-	$CC 	= $mbox->mail_props['setFrom'];
-	//$CC 	= "6ave54street@gmail.com";
-	//$BCC 	= "at54street@gmail.com";
+	$BCC 	= $mbox->mail_props['setFrom'];
 	
  	$conn = mysqli_connect(
                 $mbox->mail_props['db.host'],
@@ -43,7 +40,8 @@ use PHPMailer\PHPMailer\Exception;
         		$mbox->mail_props['db.pwd'],
         		$mbox->mail_props['db.db']);
 
-	$sql = "select distinct * from ob_email where `SNS User Email` is not null limit 5"; 
+	//$sql = "select distinct * from ob_email where `SNS User Email` is not null limit 5"; 
+	$sql = "select distinct `SNS User Email`, `Nation` from ob_email";
         print($sql."\n");
 
     	$result = mysqli_query($conn, $sql);
@@ -54,21 +52,22 @@ use PHPMailer\PHPMailer\Exception;
 		if($row["Nation"] === "REPUBLIC OF KOREA") $t_name = "OB-K.html";
 
 		$mbox->mail->ClearAllRecipients();
-		$mbox->mail->addAddress("x." . $row["SNS User Email"]);
-$mbox->mail->addAddress("at54street@gmail.com");
-		$mbox->mail->addBCC($BCC);
-		$mbox->mail->addCC($CC);
-		$mbox->mail->Subject =	$subjects[$t_name];
+		$mbox->mail->addAddress($row["SNS User Email"]);
 
+$mbox->mail->addBCC($BCC);
+$mbox->mail->addBCC("at54street@gmail.com");
+$mbox->mail->addBCC("kwangmin.lee@waffle.at");
+
+		$mbox->mail->Subject =	$subjects[$t_name];
 		$mbox->mail->SMTPDebug = 0;
 		if($DEBUG) {
-			print($row["Connect Time"] 	. " ");
+			//print($row["Connect Time"] 	. " ");
+			//print($row["SNS Type"] 		. " ");
+			//print($row["SNS User Name"]	. " ");
+			//print($row["SNS User ID"]	. " ");
+			//print($row["Birthday"] 		. " ");
+			//print($row["Gender"] 		. " ");
 			print($row["SNS User Email"]	. " ");
-			print($row["SNS Type"] 		. " ");
-			print($row["SNS User Name"]	. " ");
-			print($row["SNS User ID"]	. " ");
-			print($row["Birthday"] 		. " ");
-			print($row["Gender"] 		. " ");
 			print($row["Nation"] . "\n");
 		}
 
@@ -76,8 +75,6 @@ $mbox->mail->addAddress("at54street@gmail.com");
 		$mbox->setTemplate($t_name, $email_template[$t_name]);
 		$mbox->mail->send();
 		print("A mail[". $t_name . "] sent to =>" . $row["SNS User Email"] . " \n"); 
-
         }
         mysqli_close($conn);
-
 ?>

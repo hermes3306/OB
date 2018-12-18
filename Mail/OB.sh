@@ -8,7 +8,7 @@ echo `date` >> /tmp/OB.log
 echo "" >> /tmp/OB.log
 echo "" >> /tmp/OB.log
 
-php /root/OB/Mail/OB.php
+php /root/OB/Mail/OB.php >> /tmp/OB.log
 #php /home/pi/code/OB/Mail/OB.php
 
 echo `date` >> /tmp/OB.log

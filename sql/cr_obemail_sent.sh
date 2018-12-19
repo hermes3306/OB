@@ -20,3 +20,19 @@ mysql -v -uwaffle -pwaffle waffle << EOF
 
 exit
 EOF
+
+mysql -v -uwaffle -pwaffle waffle << EOF
+
+select 
+o.\`SNS User Email\` as email ,
+o.\`SNS User Name\` as name ,
+o.\`Birthday\` as birth ,
+o.\`Nation\` as nation 
+from ob_email o, ob_email_sent s where o.\`SNS User Email\` = s.email;
+
+exit
+
+EOF
+
+
+

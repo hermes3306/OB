@@ -1,7 +1,7 @@
 awk '/^A/ {print substr($5,3)}' /tmp/OB.log > OB2.log
 awk -f d.awk OB2.log > ins.sql
 
-mysql -v -uwaffle -pwaffle waffle << EOF
+mysql -v -uroot -pWaffleB2BProject waffle << EOF
 
 DROP TABLE IF EXISTS ob_email_sent;
 CREATE TABLE ob_email_sent (
@@ -12,9 +12,9 @@ CREATE TABLE ob_email_sent (
 exit
 EOF
 
-mysql -v -uwaffle -pwaffle waffle < ins.sql
+mysql -v -uroot -pWaffleB2BProject waffle < ins.sql
 
-mysql -v -uwaffle -pwaffle waffle << EOF
+mysql -v -uroot -pWaffleB2BProject waffle << EOF
 
 	select count(*) from ob_email_sent;
 
